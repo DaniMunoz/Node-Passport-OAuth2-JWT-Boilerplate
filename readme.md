@@ -9,9 +9,12 @@ It uses:
 
 Several tutorials were used:
 
+https://www.passportjs.org/packages/passport-google-oauth20/
 https://www.passportjs.org/tutorials/google/
 Video tutorial original: https://www.youtube.com/watch?v=mbsmsi7l3r4
 Github: https://github.com/WebDevSimplified/JWT-Authentication
+https://shivamvv.medium.com/google-oauth2-along-with-jwt-using-node-js-and-passport-e7d119e81678
+https://nelsonweb.netlify.app/post/passport-jwt-google/
 
 Simula tener 2 servidores:
 
