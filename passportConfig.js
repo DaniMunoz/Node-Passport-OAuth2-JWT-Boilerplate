@@ -49,7 +49,8 @@ module.exports = (passport) => {
         new JwtStrategy(
             {
                 jwtFromRequest: ExtractJwt.fromHeader("authorization"),
-                secretOrKey: process.env.SECRET_KEY,
+                //secretOrKey: process.env.SECRET_KEY,
+                secretOrKey: process.env.ACCESS_TOKEN_SECRET
             },
             async (jwtPayload, done) => {
                 try {

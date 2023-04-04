@@ -16,6 +16,25 @@ Github: https://github.com/WebDevSimplified/JWT-Authentication
 https://shivamvv.medium.com/google-oauth2-along-with-jwt-using-node-js-and-passport-e7d119e81678
 https://nelsonweb.netlify.app/post/passport-jwt-google/
 
+
+# How to test it
+
+1. npm run devStart
+2. http://localhost:3000/auth/google - Sign in with your Google account on Google servers. After successful login, it call backs to http://localhost:3000/auth/google/callback and returns an accessToken and a refreshToken
+3. To access the demo protected route http://localhost:3000/profile: Go to request.rest and paste the accessToken to http://localhost:3000/profile. Send the request
+4. To obtain a nes accessToken, using the refreshToken: Go to request.rest and paste the refreshToken to POST http://localhost:3000/token. Send the request, and a new accessToken is returned
+5. To logout: Go to request.rest and paste the refreshToken to DELETE http://localhost:3000/logout. Send the request, and a the refreshToken is deleted. No more accessTokens will be returned using that refreshToken
+
+
+# To Do
+
+- Store refreshTokens in a Database instead of memory
+- Create a React client
+- Deploy on Vercel using serverless capabilities
+
+
+# Resumen
+
 Simula tener 2 servidores:
 
 1. server.js: Para obtener posts de usuarios
