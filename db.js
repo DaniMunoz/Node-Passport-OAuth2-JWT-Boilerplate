@@ -1,3 +1,4 @@
+/*
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const dbUrl = "mongodb://localhost/user";
@@ -12,3 +13,4 @@ const connect = async () => {
     });
 };
 module.exports = { connect };
+*/

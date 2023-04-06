@@ -11,6 +11,9 @@ const UserSchema = mongoose.Schema({
         email: {
             type: String,
         },
+        image: {
+            type: String,
+        },
     },
 });
 const User = mongoose.model("User", UserSchema);
