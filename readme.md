@@ -28,10 +28,9 @@ https://nelsonweb.netlify.app/post/passport-jwt-google/
 
 # To Do
 
-- Store refreshTokens in a Database instead of memory
 - Create a React client
 - Deploy on Vercel using serverless capabilities
-
+- Add capacitor https://capacitorjs.com/, generate PWA and Android clients
 
 # Resumen
 
