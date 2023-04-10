@@ -16,8 +16,8 @@ import { getUser, createUser, updateUser, updateUserDeleteRefreshToken } from '.
 app.use(express.json())
 
 // Redirect the user to the Google signin page
-app.get("/api/auth/google", passport.authenticate("google", { scope: ["email", "profile"] })
-);
+//app.get("/api/auth/google", passport.authenticate("google", { scope: ["email", "profile"] }));
+
 // Retrieve user data using the access token received
 app.get("/api/auth/google/callback", passport.authenticate("google", { session: false }),
     async (req, res) => {
