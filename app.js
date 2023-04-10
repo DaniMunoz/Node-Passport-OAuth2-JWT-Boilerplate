@@ -1,15 +1,17 @@
-require("dotenv").config()
+import dotenv from 'dotenv'
+dotenv.config()
 
-const passport = require("passport");
-require("./passportConfig")(passport);
+import passport from 'passport'
+import passportConfig from "./strategies/passportConfig.js";
+passportConfig(passport);
 
-const jwt = require("jsonwebtoken")
+import jwt from 'jsonwebtoken'
 
-const express = require("express");
+import express from 'express'
 const app = express();
 const PORT = 3000;
-//const db = require("./db");
-//db.connect();
+
+import { getUser, createUser, updateUser, updateUserDeleteRefreshToken } from './db.js';
 
 app.use(express.json())
 
@@ -18,68 +20,57 @@ app.get("/auth/google", passport.authenticate("google", { scope: ["email", "prof
 );
 // Retrieve user data using the access token received
 app.get("/auth/google/callback", passport.authenticate("google", { session: false }),
-    (req, res) => {
+    async (req, res) => {
         console.log("User: " + req.user);
-        /*
-        jwt.sign(
-            { user: req.user },
-            process.env.SECRET_KEY,
-            { expiresIn: "1h" },
-            (err, token) => {
-                if (err) {
-                    return res.json({
-                        token: null,
-                    });
-                }
-                console.log(token);
-                res.json({
-                    token,
-                });
-                //res.cookie('token', token)        
-                //res.redirect('http://localhost:3000/profile?token=' + token)
-            }
-        );
-        */
-        //const username = req.body.username
-        //const user = { name: username }
-        const user = { name: req.user.name };
+        const user = { email: req.user.google.email };
         const accessToken = generateAccessToken(user)
         const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-        refreshTokens.push(refreshToken)
+        const dbUser = await getUser(req.user.google.email);
+        if(dbUser === null){
+            //create user
+            await createUser(req.user.google.id, req.user.google.email, req.user.google.name, req.user.google.image, refreshToken);
+        } else {
+            //update user
+            await updateUser(req.user.google.email, refreshToken);
+        }
         res.json({accessToken: accessToken, refreshToken: refreshToken})
     }
 );
 
 /*JWT*/
-let refreshTokens = []
 
-app.post('/token', (req, res) => {
+app.post('/token', async (req, res) => {
     const refreshToken = req.body.token
     if (refreshToken == null) return res.sendStatus(401)
-    if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+        console.log(user);
         if(err) return res.sendStatus(403)
-        const accessToken = generateAccessToken({name: user.name})
-        res.json({accessToken: accessToken})
+        const dbUser = await getUser(user.email);
+        if(dbUser.refreshToken === refreshToken){
+            const accessToken = generateAccessToken({email: user.email})
+            res.json({accessToken: accessToken})
+        } else {
+            return res.sendStatus(401)
+        }
     })
 })
 
-app.delete('/logout', (req, res) => {
-    refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-    res.sendStatus(204)
+app.delete('/logout', async (req, res) => {
+    const refreshToken = req.body.token
+    if (refreshToken == null) return res.sendStatus(401)
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+        console.log(user);
+        if(err) return res.sendStatus(403)
+        const dbUser = await getUser(user.email);
+        if(dbUser.refreshToken === refreshToken){
+            await updateUserDeleteRefreshToken(req.body.email);
+            res.sendStatus(204)
+        } else {
+            return res.sendStatus(401)
+        }
+    })
 })
 
-/*
-app.post('/login', (req, res) => {
-    //Authenticate user (ver passport video: https://www.youtube.com/watch?v=Ud5xKCYQTjM )
-    const username = req.body.username
-    const user = { name: username }
-    const accessToken = generateAccessToken(user)
-    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-    refreshTokens.push(refreshToken)
-    res.json({accessToken: accessToken, refreshToken: refreshToken})
-})
-*/
 function generateAccessToken(user){
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
 }
@@ -87,15 +78,6 @@ function generateAccessToken(user){
 
 
 // Protected route
-/*
-// profile route after successful sign in
-app.get("/profile", passport.authenticate("jwt", { session: false }),
-    (req, res, next) => {
-        //req.user
-        res.send("Welcome");
-    }
-);
-*/
 app.get('/profile', authenticateToken, (req, res) => {    
     //res.json(posts.filter(post => post.username === req.user.name))
     res.send("Welcome");

@@ -1,5 +1,5 @@
 GET http://localhost:3000/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA2MDM1NDAsImV4cCI6MTY4MDYwMzU3MH0.fDzOEnUMX50lGPEOwGsKd3eiFj4E7cOdx-PG2pU1Ogw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphYmFsaXBlbHVkb0BnbWFpbC5jb20iLCJpYXQiOjE2ODExMjg4NjksImV4cCI6MTY4MTEyODg5OX0.HdzuTLn-3KHnUTAuKVMv1Ag41a0v7h1nF7E0uYkdaRA
 
 ###
 
@@ -7,7 +7,7 @@ DELETE http://localhost:3000/logout
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA2MDM0ODl9.W4Sm92HRuyLNyazkE98EB3RRnWKIMcJx0Zv0N6p3Sug"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbG11bm96Z2lsQGdtYWlsLmNvbSIsImlhdCI6MTY4MTEyODk1N30.ysYHHiAAWXvrf3C3VmdOkvXb4aPvWp1yizlCEUN1RIw"
 }
 
 ###
@@ -16,7 +16,7 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2ODA2MDM0ODl9.W4Sm92HRuyLNyazkE98EB3RRnWKIMcJx0Zv0N6p3Sug"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhbmllbG11bm96Z2lsQGdtYWlsLmNvbSIsImlhdCI6MTY4MTEyODk1N30.ysYHHiAAWXvrf3C3VmdOkvXb4aPvWp1yizlCEUN1RIw"
 }
 
 ###

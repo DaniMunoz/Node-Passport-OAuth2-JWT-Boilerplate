@@ -1,9 +1,13 @@
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const User = require("./userModel");
-const JwtStrategy = require("passport-jwt").Strategy;
-const { ExtractJwt } = require("passport-jwt");
+//const GoogleStrategy = require("passport-google-oauth20").Strategy;
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+//const User = require("../userModel");
+import User from '../userModel.js';
+//const JwtStrategy = require("passport-jwt").Strategy;
+import { Strategy as JwtStrategy } from 'passport-jwt';
+//const { ExtractJwt } = require("passport-jwt");
+import { ExtractJwt } from 'passport-jwt';
 
-module.exports = (passport) => {
+export default (passport) => {
     passport.use(new GoogleStrategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
