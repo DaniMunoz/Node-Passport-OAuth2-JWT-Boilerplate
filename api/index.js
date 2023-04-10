@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import passport from 'passport'
-import passportConfig from "./strategies/passportConfig.js";
+import passportConfig from "../server/strategies/passportConfig.js";
 passportConfig(passport);
 
 import jwt from 'jsonwebtoken'
@@ -11,7 +11,7 @@ import express from 'express'
 const app = express();
 const PORT = 3000;
 
-import { getUser, createUser, updateUser, updateUserDeleteRefreshToken } from './db.js';
+import { getUser, createUser, updateUser, updateUserDeleteRefreshToken } from '../server/db.js';
 
 app.use(express.json())
 
@@ -63,7 +63,7 @@ app.delete('/logout', async (req, res) => {
         if(err) return res.sendStatus(403)
         const dbUser = await getUser(user.email);
         if(dbUser.refreshToken === refreshToken){
-            await updateUserDeleteRefreshToken(req.body.email);
+            await updateUserDeleteRefreshToken(user.email);
             res.sendStatus(204)
         } else {
             return res.sendStatus(401)

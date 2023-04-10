@@ -2,10 +2,10 @@
   "name": "21.passportjs-google",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "./api/index.js",
   "type": "module",
   "scripts": {
-    "devStart": "nodemon app.js",
+    "devStart": "nodemon ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
