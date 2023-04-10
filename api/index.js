@@ -16,10 +16,10 @@ import { getUser, createUser, updateUser, updateUserDeleteRefreshToken } from '.
 app.use(express.json())
 
 // Redirect the user to the Google signin page
-app.get("/auth/google", passport.authenticate("google", { scope: ["email", "profile"] })
+app.get("/api/auth/google", passport.authenticate("google", { scope: ["email", "profile"] })
 );
 // Retrieve user data using the access token received
-app.get("/auth/google/callback", passport.authenticate("google", { session: false }),
+app.get("/api/auth/google/callback", passport.authenticate("google", { session: false }),
     async (req, res) => {
         console.log("User: " + req.user);
         const user = { email: req.user.google.email };
@@ -39,7 +39,7 @@ app.get("/auth/google/callback", passport.authenticate("google", { session: fals
 
 /*JWT*/
 
-app.post('/token', async (req, res) => {
+app.post('/api/token', async (req, res) => {
     const refreshToken = req.body.token
     if (refreshToken == null) return res.sendStatus(401)
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
@@ -55,7 +55,7 @@ app.post('/token', async (req, res) => {
     })
 })
 
-app.delete('/logout', async (req, res) => {
+app.delete('/api/logout', async (req, res) => {
     const refreshToken = req.body.token
     if (refreshToken == null) return res.sendStatus(401)
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
@@ -78,7 +78,7 @@ function generateAccessToken(user){
 
 
 // Protected route
-app.get('/profile', authenticateToken, (req, res) => {    
+app.get('/api/profile', authenticateToken, (req, res) => {    
     //res.json(posts.filter(post => post.username === req.user.name))
     res.send("Welcome");
 })
