@@ -9,8 +9,8 @@ import { ExtractJwt } from 'passport-jwt';
 
 export default (passport) => {
     passport.use(new GoogleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
+        clientID: process.env.CLIENT_ID1,
+        clientSecret: process.env.CLIENT_SECRET1,
         //callbackURL: "http://localhost:3000/api/auth/google/callback",
         callbackURL: "https://node-passport-o-auth2-jwt-boilerplate.vercel.app/api/auth/google/callback",
         passReqToCallback : true
